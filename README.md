@@ -1,0 +1,4 @@
+# SSM_Integration
+将一个基于jdbc和servlet的应用整合MyBatis和Spring
+
+复习Spring知识和学习现在很多人用的MyBatis。想到之前做过个基于jdbc和servlet的应用，是教务系统里的成绩录入功能，就把它拿来练手
