@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+  <settings>
+    <!-- 本地缓存 sqlSession级别，默认开启 -->
+    <!-- 任何在 session 执行过的查询语句本身都会被保存在本地缓存中，
+                     相同的查询语句和相同的参数所产生的更改就不会二度影响数据库了。
+                     本地缓存会被增删改、提交事务、关闭事务以及关闭 session 所清空。 -->
+
+    <!-- 二级缓存 mapper级别，二级缓存的范围更大，多个SqlSession可以共用二级缓存，二级缓存是跨SqlSession的 -->
+    <setting name="cacheEnabled" value="true"/>
+    <!-- 延迟加载 -->
+    <setting name="lazyLoadingEnabled" value="true"/>
+    <setting name="aggressiveLazyLoading" value="false"/>
+    <!-- <setting name="logImpl" value="LOG4J"/> -->
+    <!-- 批量更新 -->
+    <setting name="defaultExecutorType" value="BATCH"/>
+  </settings>
+  <typeAliases>
+    <typeAlias alias="Cjbz" type="com.cjlr.entity.CjglCjbzszbBean"/>
+    <typeAlias alias="Cjdj" type="com.cjlr.entity.CjglCjdjdzbBean"/>
+    <typeAlias alias="Cjlrrw" type="com.cjlr.entity.CjglCjllrwBean"/>
+    <typeAlias alias="Cjlrsj" type="com.cjlr.entity.CjglCjlrsjszBean"/>
+    <typeAlias alias="Llrwfx" type="com.cjlr.entity.CjglLlrwfxBean"/>
+    <typeAlias alias="Xscjfx" type="com.cjlr.entity.CjglXscjfxbBean"/>
+    <typeAlias alias="Xscjhz" type="com.cjlr.entity.CjglXscjhzbBean"/>
+    <typeAlias alias="Xscjjl" type="com.cjlr.entity.CjglXscjjlBean"/>
+    <typeAlias alias="Jxbbjxx" type="com.cjlr.entity.JxjhglJxbbjxxBean"/>
+    <typeAlias alias="Rzxx" type="com.cjlr.entity.XtglRzxxBean"/>
+    <typeAlias alias="Xnxq" type="com.cjlr.entity.XtglXnxqszbBean"/>
+    <typeAlias alias="Xxjbxx" type="com.cjlr.entity.XtglXxjbxxBean"/>
+  </typeAliases>
+  <environments default="development">
+    <environment id="development">
+      <!-- 事务管理类型 -->
+      <transactionManager type="JDBC"/>
+      <!-- 数据源配置 -->
+      <dataSource type="JNDI">
+        <property name="data_source" value="java:/comp/env/jdbc/jwxtDS"/>
+      </dataSource>
+    </environment>
+  </environments>
+  <mappers>
+    <package name="com.cjlr.data"/>
+  </mappers>
+</configuration>

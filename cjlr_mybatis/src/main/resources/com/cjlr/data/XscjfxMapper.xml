@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cjlr.data.XscjfxMapper">
+  <select id="findByCjbh" resultType="Xscjfx">
+    SELECT * FROM cjgl_xscjfxb WHERE cjbh = #{cjbh} ORDER BY zj
+  </select>
+  <select id="findByCjlrrwh" resultType="Xscjfx">
+    SELECT * FROM cjgl_xscjfxb WHERE cjbh IN (SELECT cjbh FROM cjgl_xscjjl WHERE cjlrrwh = #{cjlrrwh}) ORDER BY zj
+  </select>
+  <update id="updateCjfx">
+    UPDATE cjgl_xscjfxb
+    <set>
+      <if test="hscj != null">hscj=#{hscj},</if>
+      <if test="cj != null">cj=#{cj},</if>
+    </set>
+    WHERE zj=#{zj}
+  </update>
+</mapper>
