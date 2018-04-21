@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cjlr.data.XscjhzMapper">
+  <update id="margeInto">
+    MERGE INTO cjgl_xscjhzb a
+    USING (SELECT * FROM cjgl_xscjjl WHERE xn || xq || kcbm || xh IN (#{zj})) b
+    ON (a.kcbm || a.xh = b.kcbm || b.xh)
+    WHEN MATCHED THEN
+      UPDATE SET a.cj = b.zpcj, a.jd = b.jd, a.xf = b.xf, a.jmhzzcj = b.jmhzzcj
+    WHEN NOT MATCHED THEN
+      INSERT (cjhzzj, xn, xq, xh, kcsx, kcxz, kcmc, kcbm, xf, jd, cj, kcxmbh, kcxmmc, bkcj, cxcj, jmhzzcj, cjjgx, sfgxk, kcxf, bybkcjtemp, bkcjbz)
+      VALUES (b.xn||b.xq||b.kcbm||b.xh, b.xn, b.xq, b.xh, b.kcsx, b.kcxz, b.kcmc, b.kcbm, b.xf, b.jd, b.zpcj, b.kcxmbh, b.kcxmmc, NULL, NULL, b.jmhzzcj, #{jgfsx}, #{sfgxk}, #{zxf}, NULL, NULL)
+  </update>
+</mapper>

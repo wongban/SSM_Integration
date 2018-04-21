@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cjlr.data.XscjjlMapper">
+  <resultMap id="xscjjlResult" type="Xscjjl">
+    <id property="cjbh" column="cjbh" />
+    <!-- 集合的嵌套查询 -->
+    <collection property="cjfxList" column="cjbh" ofType="Xscjfx" fetchType="eager" select="com.cjlr.data.XscjfxMapper.findByCjbh"/>
+  </resultMap>
+  <select id="findByRwbh" resultMap="xscjjlResult">
+    <if test="bjmc != null">
+      <bind name="pattern1" value="'%' + bjmc + '%'"/>
+    </if>
+    <if test="xm != null">
+      <bind name="pattern2" value="'%' + xm + '%'"/>
+    </if>
+    <if test="xh != null">
+      <bind name="pattern3" value="'%' + xh + '%'"/>
+    </if>
+    SELECT cjjl.*,
+           jbxx.xm,
+           jbxx.bjdm,
+           jbxx.bjmc,
+           xbm.mc AS xbmc,
+           bz.bzmc AS cjbzmc,
+           dj.djmc AS cjdjmc,
+           hksq.tjzt AS hksq,
+           mksq.tjzt AS mksq
+      FROM cjgl_xscjjl cjjl,
+           xsxxgl_xsjbxx jbxx,
+           xtgl_dmj_xbm xbm,
+           cjgl_cjbzszb bz,
+           cjgl_cjdjdzb dj,
+           cjgl_hkxsxxb hksq,
+           cjgl_mkxsxxb mksq
+     WHERE cjjl.xh = jbxx.xh(+)
+       AND jbxx.xbdm = xbm.dm(+)
+       AND cjjl.cjbz = bz.bzdm(+)
+       AND cjjl.cj = dj.djdm(+)
+       AND cjjl.xn||cjjl.xq||cjjl.kcbm||cjjl.xh = hksq.zj(+)
+       AND cjjl.xn||cjjl.xq||cjjl.kcbm||cjjl.xh = mksq.zj(+)
+       AND cjlrrwh = #{cjlrrwh}
+    <where>
+      <if test="bjmc != null">
+        AND jbxx.bjmc LIKE #{pattern1}
+      </if>
+      <if test="xm != null">
+        AND jbxx.xm LIKE #{pattern2}
+      </if>
+      <if test="xh != xh">
+        AND jbxx.xh LIKE #{pattern3}
+      </if>      
+    </where>
+    ORDER BY jbxx.dwdm, jbxx.zydm, jbxx.bjdm, jbxx.xh
+  </select>
+  <update id="updateCjjl">
+    UPDATE cjgl_xscjjl
+    <set>
+      <if test="xf != null">xf=#{xf},</if>
+      <if test="jd != null">jd=#{jd},</if>
+      <if test="cj != null">cj=#{cj},</if>
+      <if test="zpcj != null">zpcj=#{zpcj},</if>
+      <if test="cjbz != null">cjbz=#{cjbz},</if>
+      <if test="sfhdxf != null">sfhdxf=#{sfhdxf},</if>
+      <if test="tjzt != null">tjzt=#{tjzt},</if>
+      <if test="jmhzzcj != null">jmhzzcj=#{jmhzzcj},</if>
+    </set>
+    WHERE cjbh = #{cjbh}
+    AND xn||xq||kcbm||xh NOT IN (SELECT zj FROM cjgl_hkxsxxb WHERE tjzt = 9)
+    AND xn||xq||kcbm||xh NOT IN (SELECT zj FROM cjgl_mkxsxxb WHERE tjzt = 9)
+  </update>
+</mapper>

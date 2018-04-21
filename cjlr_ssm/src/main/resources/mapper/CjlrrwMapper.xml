@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cjlr.data.CjlrrwMapper">
+  <resultMap id="cjlrrwResult" type="Cjlrrw">
+    <id property="rwbh" column="rwbh" />
+    <!-- 集合的嵌套查询 -->
+    <collection property="cjjlList" column="{cjlrrwh=rwbh}" ofType="Xscjjl" fetchType="eager" select="com.cjlr.data.XscjjlMapper.findByRwbh"/>
+    <collection property="fxList" column="rwbh" ofType="Llrwfx" fetchType="eager" select="com.cjlr.data.LlrwfxMapper.selectLlrwfx"/>
+  </resultMap>
+  <select id="findByRwbh" resultMap="cjlrrwResult">
+    SELECT jxb.*,
+           zyfx.zyfxmc
+      FROM (SELECT cjlrrw.*,
+                   DECODE(xklx, NULL, (SELECT LISTAGG(bjmc, '，') WITHIN GROUP(ORDER BY bjmc) FROM jxjhgl_jxbbjxx WHERE jxbh=cjlrrw.rwbh), rwmc) AS jxbmc,
+                   dw.dwmc AS kcksdwmc,
+                   ksfs.mc AS khfsmc,
+                   kcsx.mc AS kcsxmc,
+                   kcxz.mc AS kcxzmc
+              FROM cjgl_cjllrw cjlrrw,
+                   jxjhgl_jxrwb jxrwb,
+                   xtgl_dwjbsjzl dw,
+                   xtgl_jxdmj_ksfs ksfs,
+                   xtgl_jxdmj_kcsx kcsx,
+                   xtgl_jxdmj_kcxz kcxz
+             WHERE cjlrrw.rwbh = jxrwb.jxbh(+)
+               AND cjlrrw.kcksdw = dw.dwdm
+               AND cjlrrw.khfs = ksfs.dm
+               AND cjlrrw.kcsx = kcsx.dm
+               AND cjlrrw.kcxz = kcxz.dm
+               AND cjlrrw.rwbh = #{rwbh}) jxb,
+           xtgl_bjsjzl bj,
+           xtgl_zyfxxxsjzl zyfx
+     WHERE jxb.jxbmc = bj.bjmc(+)
+       AND bj.ssnjzyfxdm = zyfx.zyfxdm(+)
+  </select>
+  <select id="findByJgh" resultType="Cjlrrw">
+    <if test="_parameter.dqxnxq != null">
+      <bind name="pattern" value="'%' + _parameter.dqxnxq + '%'" />
+    </if>
+    SELECT cjlrrw.*,
+           DECODE(xklx, NULL, (SELECT LISTAGG(bjmc, '，') WITHIN GROUP(ORDER BY bjmc) FROM jxjhgl_jxbbjxx WHERE jxbh=ksmdb.jxbh), jxbmc) AS jxbmc,
+           DECODE(GLJXBH, NULL, 0, 1) AS sfhb,
+           ksmdb.skrs,
+           NVL((SELECT COUNT(1) FROM cjgl_xscjjl WHERE cjlrrwh = cjlrrw.rwbh AND (zpcj IS NOT NULL OR cjbz IS NOT NULL) GROUP BY cjlrrwh), 0) AS ylrs
+      FROM cjgl_cjllrw cjlrrw,
+           jxjhgl_jxrwb jxrwb,
+           (SELECT jxbh, COUNT(1) AS skrs FROM xkgl_xkksmdb GROUP BY jxbh) ksmdb
+     WHERE cjlrrw.rwbh = jxrwb.jxbh(+)
+       AND cjlrrw.rwbh = ksmdb.jxbh
+    <if test="_parameter.dqxnxq != null">
+       AND cjlrrw.cjlljgh = #{cjlljgh}
+    </if>
+       AND cjlrrw.kcksxn||cjlrrw.kcksxq LIKE #{pattern}
+     ORDER BY cjlrrw.shzt, 
+              NLSSORT(jxbmc, 'NLS_SORT = SCHINESE_PINYIN_M'), 
+              NLSSORT(cjlrrw.kcmc, 'NLS_SORT = SCHINESE_PINYIN_M')
+  </select>
+  <update id="updateShzt">
+    UPDATE cjgl_cjllrw SET shzt = #{shzt} WHERE rwbh = #{rwbh}
+  </update>
+  <update id="updateJlfs">
+    UPDATE cjgl_cjllrw SET cjjlfs = #{cjjlfs} WHERE rwbh = #{rwbh}
+  </update>
+</mapper>

@@ -1,0 +1,195 @@
+* {
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+/* 宽度 */
+#lrrwTable th:first-child,
+#lrrwTable td:first-child { width: 80px; }
+#lrrwTable th:first-child + th,
+#lrrwTable td:first-child + td { width: 150px; }
+#lrrwTable th:first-child + th + th,
+#lrrwTable td:first-child + td + td { width: 110px; }
+#lrrwTable th:first-child + th + th + th,
+#lrrwTable td:first-child + td + td + td { width: 70px; }
+#lrrwTable th:first-child + th + th + th + th,
+#lrrwTable td:first-child + td + td + td + td { width: 70px; }
+#lrrwTable thead {
+    width: 498px;
+}
+
+#cjjlTable th:first-child,
+#cjjlTable td:first-child { width: 150px; }
+#cjjlTable th:first-child + th,
+#cjjlTable td:first-child + td { width: 120px; }
+#cjjlTable th:first-child + th + th,
+#cjjlTable td:first-child + td + td { width: 60px; }
+#cjjlTable th:first-child + th + th + th,
+#cjjlTable td:first-child + td + td + td { width: 40px; }
+#cjjlTable th:first-child + th + th + th + th,
+#cjjlTable td:first-child + td + td + td + td { width: 200px; }
+#cjjlTable th:first-child + th + th + th + th + th,
+#cjjlTable td:first-child + td + td + td + td + td { width: 80px; }
+#cjjlTable th:first-child + th + th + th + th + th + th,
+#cjjlTable td:first-child + td + td + td + td + td + td { width: 50px; }
+#cjjlTable th:first-child + th + th + th + th + th + th + th,
+#cjjlTable td:first-child + td + td + td + td + td + td + td { width: 50px; }
+#cjjlTable th:first-child + th + th + th + th + th + th + th + th,
+#cjjlTable td:first-child + td + td + td + td + td + td + td + td { width: 80px; }
+#cjjlTable thead {
+    width: 848px;
+}
+
+/* 内容对齐 */
+#lrrwTable td:first-child { text-align: center; }
+#lrrwTable td:first-child + td {}
+#lrrwTable td:first-child + td + td {}
+#lrrwTable td:first-child + td + td + td { text-align: right; }
+#lrrwTable td:first-child + td + td + td + td { text-align: right; }
+
+#cjjlTable td:first-child {}
+#cjjlTable td:first-child + td {}
+#cjjlTable td:first-child + td + td {}
+#cjjlTable td:first-child + td + td + td { text-align: center; }
+#cjjlTable td:first-child + td + td + td + td {}
+#cjjlTable td:first-child + td + td + td + td + td { text-align: right; }
+#cjjlTable td:first-child + td + td + td + td + td + td { text-align: right; }
+#cjjlTable td:first-child + td + td + td + td + td + td + td { text-align: right; }
+#cjjlTable td:first-child + td + td + td + td + td + td + td + td {}
+
+#lrrwDiv {
+    position: absolute;
+    top: 0;
+    bottom: 20px;
+}
+#cjjlDiv {
+    position: absolute;
+    top: 0;
+    bottom: 20px;
+    left: 520px;
+    right: 0;
+    overflow: auto;
+}
+.nav {
+	height: 100px;
+}
+table {
+	float: left;
+	display: block;
+	position: absolute;
+	top: 100px;
+	bottom: 20px;
+    border: 1px solid #D6DFE6;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+thead {
+	float: left;
+	display: block;
+}
+tbody {
+	float: left;
+	display: block;
+	position: absolute;
+	top: 35px;
+	bottom: 0;
+    overflow-y: scroll;
+}
+tr {
+	color: #333333;
+}
+th {
+	height: 35px;
+    font-size: 14px;
+    border-right: 1px solid #D6DFE6;
+    border-bottom: 1px solid #D6DFE6;
+    background-color: #F8F8F8;
+}
+td {
+	height: 29px;
+    font-size: 12px;
+    border-right: 1px solid #D6DFE6;
+    border-bottom: 1px solid #D6DFE6;
+    padding-left: 5px;
+    padding-right: 5px;
+    word-break: break-all;
+}
+
+/* 以下三个用来控制表格行的颜色，分别代表不及格、鼠标经过、选中的颜色。顺序决定了他们的优先级 */
+.failed {
+	background-color: #EED5D2;
+}
+
+.mouseover {
+    background-color: #FFEEA8;
+}
+
+.select {
+	background-color: #D9F3FF;
+}
+
+input[type=text],
+input[type=number] {
+    border: 1px solid #D6DFE6;
+    border-radius:3px;
+    width: 35px;
+    height: 19px;
+    text-align: right;
+    color: #333333;
+    padding-right: 0.25em;
+    font-size: 12px;
+}
+#cjjlTable select {
+    border: 1px solid #D6DFE6;
+    width: 65px;
+    font-size: 12.5px;
+}
+
+.nav button:hover, .file:hover {
+    background: #2bb6f6;
+}
+
+.nav button {
+    background: #03a9f5;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 12px;
+    color: #fff;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.file {
+    background: #03a9f5;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 12px;
+    color: #fff;
+    position: relative;
+    display: inline-block;
+    overflow: hidden;
+    font-size: 12px;
+    margin-bottom: -8px;
+}
+
+.file input {
+    position: absolute;
+    right: 0;
+    top: 0;
+    opacity: 0;
+    cursor: pointer;
+}
+
+#xnxqSelect {
+    font-size: 12px;
+    height: 26px;
+    line-height: 26px;
+    margin: 5px;
+    border: 1px solid #DEE4E7;
+    border-radius: 4px;
+    background: #fff;
+}
+#autoSaveString {
+	color: red;
+}
