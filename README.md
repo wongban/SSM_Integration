@@ -23,13 +23,12 @@
 ### Spring
 &emsp;&emsp;整合了SpringFramework后，现阶段主要使用了它的依赖注入功能。主要区别就是对象之间的依赖关系不直接硬编码在代码里面了。通过注解`@Component`来标识哪些类需要实例化，以及`@Autowired`来标识哪些属性需要Spring帮我们注入依赖。对于特殊的`bean`（例如数据源），则在Spring的配置文件里配置进行实例化。
 
-&emsp;&emsp;使用`MyBatis-Spring`将MyBatis整合到Spring中，进一步体现了Spring的作用。让Spring来管理`SqlSessionFactory`和`SqlSession`。
+&emsp;&emsp;使用`MyBatis-Spring`将MyBatis整合到Spring中，进一步体现了Spring的作用。让Spring来管理`SqlSessionFactory`、`SqlSession`、`Mapper`。
 
 注意事项：
 + 如果MyBatis映射器XML文件在和映射器类不在相同的路径下，需要在Spring配置文件下的`SqlSessionFactorybean`下面添加一个`mapperLocations`属性来加载一个目录中的所有文件。
 + 如果Spring的`PlatformTransactionManager`配置好了，就可以在Spring中以通常的做法来配置事务。事务管理器指定的`DataSource`必须和用来创建`SqlSessionFactoryBean`的是同一个数据源。
-+ 不再需要直接使用`SqlSessionFactory`了,因为`bean`可以通过一个线程安全的`SqlSession`来注入。基于Spring的事务配置来自动提交，回滚，关闭session。
-+ 不能在Spring管理的`SqlSession`上调用`SqlSession.commit()`,`SqlSession.rollback()`或`SqlSession.close()`方法。
++ 不再需要直接使用`SqlSessionFactory`了,因为`bean`可以通过一个线程安全的`SqlSession`来注入。基于Spring的事务配置来自动提交，回滚，关闭`session`。不能在Spring管理的`SqlSession`上调用`commit()`,`rollback()`或`close()`方法。
 + `MapperFactoryBean`可以直接注入数据映射器接口到`service`层`bean`中。当使用映射器时，仅仅如调用`DAO`一样调用它们就可以了，你不需要编写任何DAO实现的代码，因为MyBatis-Spring将会创建代理。
 
 &emsp;&emsp;整合了Spring MVC之后，`url`的映射和参数由`servlet`转到`controller`里处理，也减少了很多代码量。`url`的映射可以细化到方法级别，不需要通过`url`参数或者多个`servlet`来判断执行哪个业务了。Spring MVC能够自动的映射`url`参数到方法参数中，不需要操作底层`ServletRequest`来处理。而且能够自动的映射成POJO。还能将`json`数据自动映射（请求参数要加上`@RequestBody`，相应要加上`@ResponseBody`）。
